@@ -1,12 +1,26 @@
 package com.anish.blogRepo.payload;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class UserDTO {
+	
 	private long id;
+	
+	@NotNull
+	@Size(min=4 , message = "name should be min of 4 character")
 	private String fName;
+	@NotNull
 	private String lName;
+	@NotNull(message = "Email not valid")
 	private String email;
+	
+	@NotNull
+	@Size(min=5 , message = "enter valid password")
 	private String password;
+	@NotEmpty
 	private String bio;
 	
 	public UserDTO() {

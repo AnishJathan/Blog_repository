@@ -3,6 +3,7 @@ package com.anish.blogRepo.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ import com.anish.blogRepo.exception.ResourceNotFoundException;
 @Service
 public class UserServiceImpl implements UserService {
 	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	private Repository userRepo;
 	
@@ -73,25 +76,25 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	private Users dtoTouser(UserDTO userDto) {
-		Users user = new Users();
-		user.setId(userDto.getId());
-		user.setfName(userDto.getfName());
-		user.setlName(userDto.getlName());
-		user.setEmail(userDto.getEmail());
-		user.setPassword(userDto.getPassword());
-		user.setBio(userDto.getBio());
+		Users user = this.modelMapper.map(userDto, Users.class);
+//		user.setId(userDto.getId());;
+//		user.setfName(userDto.getfName());
+//		user.setlName(userDto.getlName());
+//		user.setEmail(userDto.getEmail());
+//		user.setPassword(userDto.getPassword());
+//		user.setBio(userDto.getBio());
 		
 		return user;
 	}
 	
 	private UserDTO userToDto(Users user) {
-		UserDTO userDto = new UserDTO();
-		userDto.setId(user.getId());
-		userDto.setfName(user.getfName());
-		userDto.setlName(user.getlName());	
-		userDto.setEmail(user.getEmail());
-		userDto.setPassword(user.getPassword());
-		userDto.setBio(user.getBio());
+		UserDTO userDto = this.modelMapper.map(user, UserDTO.class);
+//		userDto.setId(user.getId());
+//		userDto.setfName(user.getfName());
+//		userDto.setlName(user.getlName());	
+//		userDto.setEmail(user.getEmail());
+//		userDto.setPassword(user.getPassword());
+//		userDto.setBio(user.getBio());
 		
 		return userDto;
 	}

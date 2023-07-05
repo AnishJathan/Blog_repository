@@ -21,6 +21,7 @@ import com.anish.blogRepo.payload.ApiResponse;
 import com.anish.blogRepo.payload.UserDTO;
 import com.anish.blogRepo.services.UserService;
 
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 
 @RestController
@@ -39,32 +40,32 @@ public class UserController {
 
 	//Post - create user
 	@PostMapping("/create")	
-	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDto){
+	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDto){
 		UserDTO createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
 	}
-			//Put-update user
-		@PutMapping("/create/{id}")
-		public ResponseEntity<UserDTO> updateUser(@RequestBody  UserDTO userDto , @PathVariable long id){
+	//Put-update user
+	@PutMapping("/create/{id}")
+	public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody  UserDTO userDto , @PathVariable long id){
 			 	UserDTO updateuser =  this.userService.updateUser(userDto, id);
 			 	return  ResponseEntity.ok(updateuser);
 		}
 		
-			//Delete delete user
-		@DeleteMapping("/{id}")
-		public ResponseEntity<ApiResponse> deleteUser(@PathVariable long id ){
-			this.deleteUser(id);
+	//Delete delete user
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ApiResponse> deleteUser(@PathVariable long id ){
+			this.userService.deleteUser(id);
 			return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted successfully",true), HttpStatus.OK);
 		}
 	
-		//Get - user get
-		@GetMapping("/")
-		public ResponseEntity<List<UserDTO>> getAllUser(){
+	//Get - user get
+	@GetMapping("/")
+	public ResponseEntity<List<UserDTO>> getAllUser(){
 			return ResponseEntity.ok(this.userService.getAllUsers());
 		}
 		
-		@GetMapping("/{id}")
-		public ResponseEntity<UserDTO> getSingleUser(@PathVariable long id){
-			return ResponseEntity.ok(this.userService.getUserById(id));
-		}
+	@GetMapping("/{id}")
+	public ResponseEntity<UserDTO> getSingleUser(@PathVariable long id){
+		return ResponseEntity.ok(this.userService.getUserById(id));
+	}
 }

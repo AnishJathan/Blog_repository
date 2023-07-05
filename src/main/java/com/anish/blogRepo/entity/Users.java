@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@NoArgsConstructor
-@Getter
-@Setter
 public class Users {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
