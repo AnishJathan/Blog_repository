@@ -31,7 +31,7 @@ public class CategoryServiceImp implements CategoryService {
 		Category addedCat= this.catRepo.save(cat);
 		return this.modelMapper.map(addedCat, CategoryDTO.class);
 	}
-
+ 
 	@Override
 	public CategoryDTO updateCategory(CategoryDTO caDto, long id) {
 		Category cat = this.catRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Category", "Category id", id));
