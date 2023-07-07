@@ -14,19 +14,19 @@ public interface PostService {
 	
 	//update
 	
-	Post updatePost(PostDTO postDto, long post_id);
+	PostDTO updatePost(PostDTO postDto, long post_id);
 	
 	//delete
 	
 	void deletePost(long post_id);
 	
 	//get all post
-	List<Post> getAllPost();
+	List<PostDTO> getAllPost();
 	
 	
 	//get post by id
 	
-	Post getPostById(long post_id);
+	PostDTO getPostById(long post_id);
 	
 	//get post by category
 	List<PostDTO> getPostByCategory(long Category_id);

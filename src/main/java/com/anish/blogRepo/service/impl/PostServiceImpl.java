@@ -54,27 +54,41 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post updatePost(PostDTO postDto, long post_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public PostDTO updatePost(PostDTO postDto, long post_id) {
+		Post findPost = this.postRepo.findById(post_id).orElseThrow(()-> new ResourceNotFoundException("Post", "post id", post_id));
+		
+		findPost.setTitle(postDto.getTitle());
+		findPost.setContent(postDto.getContent());
+		findPost.setImageName(postDto.getImageName());
+		
+		Post updatedPost = this.postRepo.save(findPost);
+		
+		return this.modelMapper.map(updatedPost,PostDTO.class);
 	}
 
 	@Override
 	public void deletePost(long post_id) {
-		// TODO Auto-generated method stub
+		Post findPost = this.postRepo.findById(post_id).orElseThrow(()-> new ResourceNotFoundException("Post", "Post id", post_id));
+		
+		this.postRepo.delete(findPost);
 		
 	}
 
 	@Override
-	public List<Post> getAllPost() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDTO> getAllPost() {
+		List<Post> allPosts = this.postRepo.findAll();
+		
+		List<PostDTO> postDtos = allPosts.stream().map((post)-> this.modelMapper.map(post,PostDTO.class)).collect(Collectors.toList());
+		
+		
+		return postDtos;
 	}
 
 	@Override
-	public Post getPostById(long post_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public PostDTO getPostById(long post_id) {
+		Post post = this.postRepo.findById(post_id).orElseThrow(()-> new ResourceNotFoundException("post", "post id", post_id));
+		
+		return this.modelMapper.map(post, PostDTO.class);
 	}
 
 	@Override
