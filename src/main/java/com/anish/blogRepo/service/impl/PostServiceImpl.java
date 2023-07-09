@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anish.blogRepo.entity.Category;
@@ -15,6 +19,7 @@ import com.anish.blogRepo.entity.Post;
 import com.anish.blogRepo.entity.Users;
 import com.anish.blogRepo.exception.ResourceNotFoundException;
 import com.anish.blogRepo.payload.PostDTO;
+import com.anish.blogRepo.payload.PostResponse;
 import com.anish.blogRepo.repository.CategoryRepostory;
 import com.anish.blogRepo.repository.PostRepository;
 import com.anish.blogRepo.repository.Repository;
@@ -75,13 +80,31 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDTO> getAllPost() {
-		List<Post> allPosts = this.postRepo.findAll();
+	public PostResponse getAllPost(Integer pageNumber , Integer pageSize,String sortBy, String sortDir) {
+		
+		Sort sort = (sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+		
+		
+		Pageable p = PageRequest.of(pageNumber, pageSize, sort);
+		
+		Page<Post> pagePost = this.postRepo.findAll(p);
+		
+		List<Post> allPosts = pagePost.getContent();
 		
 		List<PostDTO> postDtos = allPosts.stream().map((post)-> this.modelMapper.map(post,PostDTO.class)).collect(Collectors.toList());
 		
+		PostResponse postResponse = new PostResponse();
 		
-		return postDtos;
+		postResponse.setContant(postDtos);
+		postResponse.setPageNumber(pagePost.getNumber());
+		postResponse.setPageSize(pagePost.getSize());
+		postResponse.setTotalElement(pagePost.getTotalElements());
+		postResponse.setTotalPage(pagePost.getTotalPages());
+		
+		postResponse.setLastPage(pagePost.isLast());
+		
+		
+		return postResponse;
 	}
 
 	@Override

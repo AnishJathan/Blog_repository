@@ -6,6 +6,7 @@ import com.anish.blogRepo.entity.Category;
 import com.anish.blogRepo.entity.Post;
 import com.anish.blogRepo.entity.Users;
 import com.anish.blogRepo.payload.PostDTO;
+import com.anish.blogRepo.payload.PostResponse;
 
 public interface PostService {
 	
@@ -21,7 +22,7 @@ public interface PostService {
 	void deletePost(long post_id);
 	
 	//get all post
-	List<PostDTO> getAllPost();
+	PostResponse getAllPost(Integer pageNumber , Integer pageSize,String sortBy,String sortDir);
 	
 	
 	//get post by id
