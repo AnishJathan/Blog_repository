@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,10 @@ public class Users {
 	
 	@OneToMany(mappedBy = "users" , cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> posts = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user" , cascade= CascadeType.ALL)
+	private List<Comment> comments = new ArrayList<>();
+
 	
 	public Users(String fName, String lName, String email, String password, String bio) {
 		super();

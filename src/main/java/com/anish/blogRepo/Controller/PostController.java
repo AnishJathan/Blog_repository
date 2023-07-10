@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anish.blogRepo.config.AppContant;
 import com.anish.blogRepo.entity.Post;
 import com.anish.blogRepo.payload.ApiResponse;
 import com.anish.blogRepo.payload.PostDTO;
@@ -57,10 +58,10 @@ public class PostController {
 	
 	@GetMapping("/posts")
 	public ResponseEntity<PostResponse> getAllPost(
-			@RequestParam (value="pageNumber" ,defaultValue = "0", required = false)Integer pageNumber ,		
-			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-			@RequestParam(value = "sortBy" , defaultValue = "id" , required = false)String sort,
-			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
+			@RequestParam (value="pageNumber" ,defaultValue =AppContant.PAGE_NUMBER , required = false)Integer pageNumber ,		
+			@RequestParam(value = "pageSize", defaultValue = AppContant.PAGE_SIZE, required = false) Integer pageSize,
+			@RequestParam(value = "sortBy" , defaultValue = AppContant.sortBy , required = false)String sort,
+			@RequestParam(value = "sortDir", defaultValue = AppContant.sortDir, required = false) String sortDir
 			){
 		PostResponse postResponse = this.postService.getAllPost(pageNumber,pageSize,sort,sortDir);
 		
@@ -88,5 +89,13 @@ public class PostController {
 		return new ResponseEntity<PostDTO>(updatePost, HttpStatus.OK);
 	}
 	
-	
+	@GetMapping("/posts/search/{keyword}")
+	public ResponseEntity<List<PostDTO>> search(
+			@PathVariable("keyword") String keyword
+			){
+		List<PostDTO> search = this.postService.searchPost(keyword);
+		
+		return new ResponseEntity<List<PostDTO>>(search , HttpStatus.OK);
+	}
+			
 }

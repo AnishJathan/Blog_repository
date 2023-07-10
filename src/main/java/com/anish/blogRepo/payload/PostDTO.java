@@ -1,12 +1,21 @@
 package com.anish.blogRepo.payload;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.anish.blogRepo.entity.Category;
 import com.anish.blogRepo.entity.Users;
+import com.anish.blogRepo.entity.Comment;
 
 import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PostDTO {
 	
 	private long id;
@@ -20,6 +29,9 @@ public class PostDTO {
 	
 	private Users users;
 	
+	private List<CommentDTO> comments = new ArrayList<>();
+	
+
 	public PostDTO() {
 		
 	}

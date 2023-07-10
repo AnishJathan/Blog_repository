@@ -1,13 +1,21 @@
 package com.anish.blogRepo.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import com.anish.blogRepo.payload.CommentDTO;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,13 +36,27 @@ public class Post {
 	private Category category;
 	@ManyToOne
 	private Users users;
-	public Post(long id, String title, String content, String imageName, Date addedDate) {
+	
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	private List<Comment> comments = new ArrayList<>();
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	public Post(long id, String title, String content, String imageName, Date addedDate, Category category, Users users,
+			List<Comment> comments) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.content = content;
 		this.imageName = imageName;
 		this.addedDate = addedDate;
+		this.category = category;
+		this.users = users;
+		this.comments = comments;
 	}
 	public Post() {
 		
