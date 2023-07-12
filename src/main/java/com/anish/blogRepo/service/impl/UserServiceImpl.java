@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.anish.blogRepo.payload.UserDTO;
@@ -26,10 +27,13 @@ public class UserServiceImpl implements UserService {
 		super();
 		this.userRepo = userRepo;
 	}
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDTO createUser(UserDTO userDto) {
 		Users user = this.dtoTouser(userDto);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		Users savedUser = this.userRepo.save(user);
 		return this.userToDto(savedUser);
 	}
@@ -43,6 +47,7 @@ public class UserServiceImpl implements UserService {
 		user.setfName(userDto.getfName());
 		user.setlName(userDto.getlName());
 		user.setEmail(userDto.getEmail());
+		
 		user.setPassword(userDto.getPassword());
 		user.setBio(userDto.getBio());
 		
